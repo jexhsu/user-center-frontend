@@ -10,6 +10,8 @@ import { currentUser as queryCurrentUser } from '@/services/ant-design-pro/api';
 import React from 'react';
 const isDev = process.env.NODE_ENV === 'development';
 const loginPath = '/user/login';
+const registerPath = '/user/register';
+const whiteList = [loginPath, registerPath];
 
 /**
  * @see  https://umijs.org/zh-CN/plugins/plugin-initial-state
@@ -27,7 +29,10 @@ export async function getInitialState(): Promise<{
       });
       return msg.data;
     } catch (error) {
-      history.push(loginPath);
+      const currentUrlPath = history.location.pathname;
+      if (whiteList.includes(currentUrlPath)) {
+        history.push(currentUrlPath);
+      }
     }
     return undefined;
   };
@@ -63,9 +68,12 @@ export const layout: RunTimeLayoutConfig = ({ initialState, setInitialState }) =
     },
     footerRender: () => <Footer />,
     onPageChange: () => {
-      const { location } = history;
-      // 如果没有登录，重定向到 login
-      if (!initialState?.currentUser && location.pathname !== loginPath) {
+      const currentUrlPath = history.location.pathname;
+      if (whiteList.includes(currentUrlPath)) {
+        return;
+      }
+      if (!initialState?.currentUser) {
+        // 如果没有登录，重定向到 login
         history.push(loginPath);
       }
     },
