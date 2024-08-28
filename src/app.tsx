@@ -1,13 +1,11 @@
-import { Footer, Question, SelectLang, AvatarDropdown, AvatarName } from '@/components';
+import { AvatarDropdown, AvatarName, Footer, Question, SelectLang } from '@/components';
+import { currentUser as queryCurrentUser } from '@/services/ant-design-pro/api';
 import { LinkOutlined } from '@ant-design/icons';
 import type { Settings as LayoutSettings } from '@ant-design/pro-components';
 import { SettingDrawer } from '@ant-design/pro-components';
 import type { RunTimeLayoutConfig } from '@umijs/max';
 import { history, Link } from '@umijs/max';
 import defaultSettings from '../config/defaultSettings';
-import { errorConfig } from './requestErrorConfig';
-import { currentUser as queryCurrentUser } from '@/services/ant-design-pro/api';
-import React from 'react';
 const isDev = process.env.NODE_ENV === 'development';
 const loginPath = '/user/login';
 const registerPath = '/user/register';
@@ -24,10 +22,7 @@ export async function getInitialState(): Promise<{
 }> {
   const fetchUserInfo = async () => {
     try {
-      const msg = await queryCurrentUser({
-        skipErrorHandler: true,
-      });
-      return msg.data;
+      return await queryCurrentUser();
     } catch (error) {
       const currentUrlPath = history.location.pathname;
       if (whiteList.includes(currentUrlPath)) {
@@ -36,18 +31,16 @@ export async function getInitialState(): Promise<{
     }
     return undefined;
   };
-  // 如果不是登录页面，执行
-  const { location } = history;
-  if (location.pathname !== loginPath) {
-    const currentUser = await fetchUserInfo();
+  if (whiteList.includes(history.location.pathname)) {
     return {
       fetchUserInfo,
-      currentUser,
       settings: defaultSettings as Partial<LayoutSettings>,
     };
   }
+  const currentUser = await fetchUserInfo();
   return {
     fetchUserInfo,
+    currentUser,
     settings: defaultSettings as Partial<LayoutSettings>,
   };
 }
@@ -57,14 +50,14 @@ export const layout: RunTimeLayoutConfig = ({ initialState, setInitialState }) =
   return {
     actionsRender: () => [<Question key="doc" />, <SelectLang key="SelectLang" />],
     avatarProps: {
-      src: initialState?.currentUser?.avatar,
+      src: initialState?.currentUser?.avatarUrl,
       title: <AvatarName />,
       render: (_, avatarChildren) => {
         return <AvatarDropdown>{avatarChildren}</AvatarDropdown>;
       },
     },
     waterMarkProps: {
-      content: initialState?.currentUser?.name,
+      content: initialState?.currentUser?.userAccount,
     },
     footerRender: () => <Footer />,
     onPageChange: () => {
@@ -73,7 +66,6 @@ export const layout: RunTimeLayoutConfig = ({ initialState, setInitialState }) =
         return;
       }
       if (!initialState?.currentUser) {
-        // 如果没有登录，重定向到 login
         history.push(loginPath);
       }
     },
@@ -140,5 +132,6 @@ export const layout: RunTimeLayoutConfig = ({ initialState, setInitialState }) =
  * @doc https://umijs.org/docs/max/request#配置
  */
 export const request = {
-  ...errorConfig,
+  baseURL: 'http://localhost:8080',
+  timeout: 600000,
 };
