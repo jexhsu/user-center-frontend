@@ -40,14 +40,11 @@ export default [
     access: 'canAdmin',
     routes: [
       {
-        path: '/admin',
-        redirect: '/admin/sub-page',
+        path: '/admin/user-manage',
+        name: '用户管理',
+        component: './Admin/UserManage',
       },
-      {
-        path: '/admin/sub-page',
-        name: 'sub-page',
-        component: './Admin',
-      },
+      { component: './404' },
     ],
   },
   {

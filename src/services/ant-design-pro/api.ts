@@ -5,7 +5,6 @@ import { request } from '@umijs/max';
 /** 获取当前的用户 GET /api/user/current */
 export async function currentUser(options?: { [key: string]: any }) {
   return request<API.CurrentUser>('/api/user/current', {
-    withCredentials: true,
     method: 'GET',
     ...(options || {}),
   });
@@ -23,7 +22,6 @@ export async function outLogin(options?: { [key: string]: any }) {
 export async function login(body: API.LoginParams, options?: { [key: string]: any }) {
   return request<API.LoginResult>('/api/user/login', {
     method: 'POST',
-    withCredentials: true,
     headers: {
       'Content-Type': 'application/json',
     },
@@ -32,9 +30,9 @@ export async function login(body: API.LoginParams, options?: { [key: string]: an
   });
 }
 
-/** 注册接口 POST /api/register */
-export async function register(body: API.LoginParams, options?: { [key: string]: any }) {
-  return request<API.LoginResult>('/api/register', {
+/** 注册接口 POST /api/user/register */
+export async function register(body: API.RegisterParams, options?: { [key: string]: any }) {
+  return request<API.RegisterResult>('/api/user/register ', {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
@@ -44,14 +42,36 @@ export async function register(body: API.LoginParams, options?: { [key: string]:
   });
 }
 
-/** 此处后端没有提供注释 GET /api/notices */
-export async function getNotices(options?: { [key: string]: any }) {
-  return request<API.NoticeIconList>('/api/notices', {
+/** 查询所有用户 GET /api/user/search */
+export async function searchUsers(options?: { [key: string]: any }) {
+  return request<API.CurrentUser[]>('/api/user/search', {
     method: 'GET',
     ...(options || {}),
   });
 }
 
+/** 删除用户 POST /api/user/delete */
+export async function deleteUser(body: API.DeleteUserParams, options?: { [key: string]: any }) {
+  console.log(body.id);
+  return request<boolean>('/api/user/delete', {
+    method: 'POST',
+    data: body,
+    ...options,
+  });
+}
+
+/** 修改用户 POST /api/user/update/my */
+export async function updateUserInfoByAdmin(
+  body: API.CurrentUser,
+  options?: { [key: string]: any },
+) {
+  console.log(body);
+  return request<boolean>('/api/user/update', {
+    method: 'POST',
+    data: body,
+    ...options,
+  });
+}
 /** 获取规则列表 GET /api/rule */
 export async function rule(
   params: {

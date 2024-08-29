@@ -12,7 +12,7 @@ declare namespace API {
     email: string;
     userStatus: number;
     createTime: Date;
-    userRole: string;
+    userRole: number;
     userCode: string;
   };
 
@@ -33,6 +33,10 @@ declare namespace API {
     status?: string;
     type?: string;
     currentAuthority?: string;
+  };
+
+  type DeleteUserParams = {
+    id: number;
   };
 
   type PageParams = {

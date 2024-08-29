@@ -10,11 +10,10 @@ import {
   WechatOutlined,
 } from '@ant-design/icons';
 import { LoginForm, ProFormText } from '@ant-design/pro-components';
-import { FormattedMessage, Helmet, history, SelectLang, useIntl, useModel } from '@umijs/max';
-import { Alert, message } from 'antd';
+import { FormattedMessage, Helmet, history, SelectLang, useIntl } from '@umijs/max';
+import { message } from 'antd';
 import { createStyles } from 'antd-style';
-import React, { useState } from 'react';
-import { flushSync } from 'react-dom';
+import React from 'react';
 import Settings from '../../../../config/defaultSettings';
 
 // TODO: 因为大部分从登录复制，后续要继续优化
@@ -78,31 +77,15 @@ const Lang = () => {
   );
 };
 
-const RegisterMessage: React.FC<{
-  content: string;
-}> = ({ content }) => {
-  return (
-    <Alert
-      style={{
-        marginBottom: 24,
-      }}
-      message={content}
-      type="error"
-      showIcon
-    />
-  );
-};
-
 const Register: React.FC = () => {
-  const [userRegisterState, setUserRegisterState] = useState<API.RegisterResult>({});
   const { styles } = useStyles();
   const intl = useIntl();
 
   const handleSubmit = async (values: API.RegisterParams) => {
     try {
       // 注册
-      const msg = await register({ ...values });
-      if (msg.status === 'ok') {
+      const id = await register({ ...values });
+      if (id) {
         const defaultRegisterSuccessMessage = intl.formatMessage({
           id: 'pages.register.success',
         });
@@ -110,9 +93,6 @@ const Register: React.FC = () => {
         history.push('/user/login');
         return;
       }
-      console.log(msg);
-      // 如果失败去设置用户错误信息
-      setUserRegisterState(msg);
     } catch (error) {
       const defaultRegisterFailureMessage = intl.formatMessage({
         id: 'pages.register.failure',
@@ -121,8 +101,6 @@ const Register: React.FC = () => {
       message.error(defaultRegisterFailureMessage);
     }
   };
-  const { status, type: registerType } = userRegisterState;
-
   return (
     <div className={styles.container}>
       <Helmet>
@@ -156,17 +134,10 @@ const Register: React.FC = () => {
             await handleSubmit(values as API.LoginParams);
           }}
         >
-          {status === 'error' && registerType === 'account' && (
-            <RegisterMessage
-              content={intl.formatMessage({
-                id: 'pages.login.accountLogin.errorMessage',
-              })}
-            />
-          )}
           {
             <>
               <ProFormText
-                name="username"
+                name="userAccount"
                 fieldProps={{
                   size: 'large',
                   prefix: <UserOutlined />,
@@ -182,7 +153,7 @@ const Register: React.FC = () => {
                 ]}
               />
               <ProFormText.Password
-                name="password"
+                name="userPassword"
                 fieldProps={{
                   size: 'large',
                   prefix: <LockOutlined />,
@@ -198,7 +169,7 @@ const Register: React.FC = () => {
                 ]}
               />
               <ProFormText.Password
-                name="password"
+                name="checkPassword"
                 fieldProps={{
                   size: 'large',
                   prefix: <LockOutlined />,
