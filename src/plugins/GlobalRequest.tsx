@@ -44,7 +44,9 @@ request.interceptors.response.use(async (response, options): Promise<any> => {
     return res.data;
   }
   if (res.code === 40100) {
-    message.error('请先登录!');
+    if (history.location.pathname !== '/') {
+      message.error('请先登录!');
+    }
     history.replace({
       pathname: '/user/login',
       search: stringify({

@@ -3,7 +3,8 @@
  * 解决首次加载时白屏的问题
  */
  (function () {
-  const _root = document.querySelector('#root');
+   const _root = document.querySelector('#root');
+   document.title = '加载中 - 请稍候...';
   if (_root && _root.innerHTML === '') {
     _root.innerHTML = `
       <style>
@@ -191,10 +192,10 @@
           </div>
         </div>
         <div class="loading-title">
-          正在加载资源
+          正在加载资源，请稍候...
         </div>
         <div class="loading-sub-title">
-          初次加载资源可能需要较多时间 请耐心等待
+          初次加载资源可能需要较多时间，请耐心等待，不如做个深呼吸 😌
         </div>
       </div>
     `;

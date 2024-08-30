@@ -199,59 +199,57 @@ const columns: ProColumns<API.CurrentUser>[] = [
 export default () => {
   const actionRef = useRef<ActionType>();
   return (
-    <PageContainer>
-      <ProTable<API.CurrentUser>
-        columns={columns}
-        actionRef={actionRef}
-        cardBordered
-        // @ts-ignore
-        request={async (sort, filter) => {
-          console.log(sort, filter);
-          return {
-            data: await searchUsers(),
-          };
-        }}
-        editable={{
-          type: 'multiple',
-        }}
-        columnsState={{
-          persistenceKey: 'pro-table-singe-demos',
-          persistenceType: 'localStorage',
-          defaultValue: {
-            option: { fixed: 'right', disable: true },
-          },
-          onChange(value) {
-            console.log('value: ', value);
-          },
-        }}
-        rowKey="id"
-        search={{
-          labelWidth: 'auto',
-        }}
-        options={{
-          setting: {
-            listsHeight: 400,
-          },
-        }}
-        form={{
-          // 由于配置了 transform，提交的参数与定义的不同这里需要转化一下
-          syncToUrl: (values, type) => {
-            if (type === 'get') {
-              return {
-                ...values,
-                created_at: [values.startTime, values.endTime],
-              };
-            }
-            return values;
-          },
-        }}
-        pagination={{
-          pageSize: 5,
-          onChange: (page) => console.log(page),
-        }}
-        dateFormatter="string"
-        headerTitle="用户信息"
-      />
-    </PageContainer>
+    <ProTable<API.CurrentUser>
+      columns={columns}
+      actionRef={actionRef}
+      cardBordered
+      // @ts-ignore
+      request={async (sort, filter) => {
+        console.log(sort, filter);
+        return {
+          data: await searchUsers(),
+        };
+      }}
+      editable={{
+        type: 'multiple',
+      }}
+      columnsState={{
+        persistenceKey: 'pro-table-singe-demos',
+        persistenceType: 'localStorage',
+        defaultValue: {
+          option: { fixed: 'right', disable: true },
+        },
+        onChange(value) {
+          console.log('value: ', value);
+        },
+      }}
+      rowKey="id"
+      search={{
+        labelWidth: 'auto',
+      }}
+      options={{
+        setting: {
+          listsHeight: 400,
+        },
+      }}
+      form={{
+        // 由于配置了 transform，提交的参数与定义的不同这里需要转化一下
+        syncToUrl: (values, type) => {
+          if (type === 'get') {
+            return {
+              ...values,
+              created_at: [values.startTime, values.endTime],
+            };
+          }
+          return values;
+        },
+      }}
+      pagination={{
+        pageSize: 5,
+        onChange: (page) => console.log(page),
+      }}
+      dateFormatter="string"
+      headerTitle="用户信息"
+    />
   );
 };

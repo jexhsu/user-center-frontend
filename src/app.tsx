@@ -56,7 +56,8 @@ export const layout: RunTimeLayoutConfig = ({ initialState, setInitialState }) =
       src: initialState?.currentUser?.avatarUrl,
       title: <AvatarName />,
       render: (_, avatarChildren) => {
-        return <AvatarDropdown>{avatarChildren}</AvatarDropdown>;
+        // TODO: 待开发，个人中心、个人设置
+        return <AvatarDropdown menu={false}>{avatarChildren}</AvatarDropdown>;
       },
     },
     waterMarkProps: {
