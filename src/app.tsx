@@ -8,7 +8,7 @@ import { history, Link } from '@umijs/max';
 import defaultSettings from '../config/defaultSettings';
 const isDev = process.env.NODE_ENV === 'development';
 const loginPath = '/user/login';
-const registerPath = '/user/register';
+const registerPath = process.env.NODE_ENV === 'production' ? '' : '/user/register';
 const whiteList = [loginPath, registerPath];
 
 /**
@@ -33,13 +33,16 @@ export async function getInitialState(): Promise<{
   };
   if (whiteList.includes(history.location.pathname)) {
     return {
+      // @ts-ignore
       fetchUserInfo,
       settings: defaultSettings as Partial<LayoutSettings>,
     };
   }
   const currentUser = await fetchUserInfo();
   return {
+    // @ts-ignore
     fetchUserInfo,
+    // @ts-ignore
     currentUser,
     settings: defaultSettings as Partial<LayoutSettings>,
   };
@@ -62,10 +65,7 @@ export const layout: RunTimeLayoutConfig = ({ initialState, setInitialState }) =
     footerRender: () => <Footer />,
     onPageChange: () => {
       const currentUrlPath = history.location.pathname;
-      if (whiteList.includes(currentUrlPath)) {
-        return;
-      }
-      if (!initialState?.currentUser) {
+      if (!whiteList.includes(currentUrlPath) && !initialState?.currentUser) {
         history.push(loginPath);
       }
     },
