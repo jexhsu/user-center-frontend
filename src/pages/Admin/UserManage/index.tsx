@@ -1,14 +1,8 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 import { selectUserRole, selectUserStatus } from '@/constants';
-import { searchUsers, updateUserInfoByAdmin, deleteUser } from '@/services/ant-design-pro/api';
+import { deleteUser, searchUsers, updateUserInfoByAdmin } from '@/services/ant-design-pro/api';
 import type { ActionType, ProColumns } from '@ant-design/pro-components';
-import {
-  ModalForm,
-  PageContainer,
-  ProForm,
-  ProFormSelect,
-  ProTable,
-} from '@ant-design/pro-components';
+import { ModalForm, ProForm, ProFormSelect, ProTable } from '@ant-design/pro-components';
 import { Button, Image, message, Tag } from 'antd';
 import { Popconfirm } from 'antd/lib';
 import { useRef } from 'react';
@@ -23,21 +17,21 @@ const columns: ProColumns<API.CurrentUser>[] = [
   },
   {
     title: '用户名',
-    dataIndex: 'username',
+    dataIndex: 'user_name',
     ellipsis: true,
     align: 'center',
   },
   {
     title: '用户账户',
-    dataIndex: 'userAccount',
+    dataIndex: 'user_account',
     align: 'center',
   },
   {
     title: '头像',
-    dataIndex: 'avatarUrl',
+    dataIndex: 'avatar_url',
     render: (_, record) => (
       <Image
-        src={record.avatarUrl}
+        src={record.avatar_url}
         width="40px"
         height="40px"
         style={{ borderRadius: '50%' }}
@@ -73,7 +67,7 @@ const columns: ProColumns<API.CurrentUser>[] = [
   },
   {
     title: '用户状态',
-    dataIndex: 'userStatus',
+    dataIndex: 'user_status',
     // 枚举
     valueType: 'select',
     valueEnum: {
@@ -85,7 +79,7 @@ const columns: ProColumns<API.CurrentUser>[] = [
   },
   {
     title: '用户角色',
-    dataIndex: 'userRole',
+    dataIndex: 'user_role',
     // 枚举
     valueType: 'select',
     valueEnum: {
@@ -97,7 +91,7 @@ const columns: ProColumns<API.CurrentUser>[] = [
   },
   {
     title: '创建时间',
-    dataIndex: 'createTime',
+    dataIndex: 'create_time',
     ellipsis: true,
     valueType: 'date',
     align: 'center',
@@ -134,13 +128,13 @@ const columns: ProColumns<API.CurrentUser>[] = [
       >
         <ProForm.Group>
           <ProFormSelect
-            name="userStatus"
+            name="user_status"
             fieldProps={{
               size: 'large',
             }}
             label="用户状态"
             options={selectUserStatus}
-            initialValue={record.userStatus}
+            initialValue={record.user_status}
             placeholder={'选择用户状态'}
             rules={[
               {
@@ -150,13 +144,13 @@ const columns: ProColumns<API.CurrentUser>[] = [
             ]}
           />
           <ProFormSelect
-            name="userRole"
+            name="user_role"
             fieldProps={{
               size: 'large',
             }}
             label="用户角色"
             options={selectUserRole}
-            initialValue={record.userRole}
+            initialValue={record.user_role}
             placeholder={'选择用户角色'}
             rules={[
               {

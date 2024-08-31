@@ -53,7 +53,7 @@ export const layout: RunTimeLayoutConfig = ({ initialState, setInitialState }) =
   return {
     actionsRender: () => [<Question key="doc" />, <SelectLang key="SelectLang" />],
     avatarProps: {
-      src: initialState?.currentUser?.avatarUrl,
+      src: initialState?.currentUser?.avatar_url,
       title: <AvatarName />,
       render: (_, avatarChildren) => {
         // TODO: 待开发，个人中心、个人设置
@@ -61,7 +61,7 @@ export const layout: RunTimeLayoutConfig = ({ initialState, setInitialState }) =
       },
     },
     waterMarkProps: {
-      content: initialState?.currentUser?.userAccount,
+      content: initialState?.currentUser?.user_account,
     },
     footerRender: () => <Footer />,
     onPageChange: () => {
@@ -133,7 +133,7 @@ export const layout: RunTimeLayoutConfig = ({ initialState, setInitialState }) =
  * @doc https://umijs.org/docs/max/request#配置
  */
 export const request: RequestConfig = {
-  baseURL: 'http://localhost:8080',
+  baseURL: 'http://locahost:8080',
   withCredentials: true,
   timeout: 600000,
 };

@@ -137,7 +137,7 @@ const Register: React.FC = () => {
           {
             <>
               <ProFormText
-                name="userAccount"
+                name="user_account"
                 fieldProps={{
                   size: 'large',
                   prefix: <UserOutlined />,
@@ -153,7 +153,7 @@ const Register: React.FC = () => {
                 ]}
               />
               <ProFormText.Password
-                name="userPassword"
+                name="user_password"
                 fieldProps={{
                   size: 'large',
                   prefix: <LockOutlined />,
@@ -169,7 +169,7 @@ const Register: React.FC = () => {
                 ]}
               />
               <ProFormText.Password
-                name="checkPassword"
+                name="check_password"
                 fieldProps={{
                   size: 'large',
                   prefix: <LockOutlined />,

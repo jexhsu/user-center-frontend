@@ -16,7 +16,7 @@ import { stringify } from 'querystring';
 const request = extend({
   credentials: 'include', // 默认请求是否带上cookie
   prefix:
-    process.env.NODE_ENV === 'production' ? 'http://usercenter.github.io' : 'http://localhost:8080',
+    process.env.NODE_ENV === 'production' ? 'http://10.211.55.7:8080' : 'http://localhost:8080',
   // requestType: 'form',
 });
 

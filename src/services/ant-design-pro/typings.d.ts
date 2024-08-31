@@ -11,21 +11,21 @@ declare namespace API {
 
   type CurrentUser = {
     id: number;
-    username: string;
-    userAccount: string;
-    avatarUrl?: string;
+    user_name: string;
+    user_account: string;
+    avatar_url?: string;
     gender: string;
     phone: string;
     email: string;
-    userStatus: number;
-    createTime: Date;
-    userRole: number;
-    userCode: string;
+    user_status: number;
+    create_time: Date;
+    user_role: number;
+    user_code: string;
   };
 
   type LoginParams = {
-    userAccount?: string;
-    userPassword?: string;
+    user_account?: string;
+    user_password?: string;
     autoLogin?: boolean;
     type?: string;
   };
@@ -37,9 +37,9 @@ declare namespace API {
   };
 
   type RegisterParams = {
-    userAccount?: string;
-    userPassword?: string;
-    checkPassword?: string;
+    user_account?: string;
+    user_password?: string;
+    check_password?: string;
     autoLogin?: boolean;
     type?: string;
   };
